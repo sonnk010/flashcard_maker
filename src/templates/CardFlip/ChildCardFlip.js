@@ -1,16 +1,23 @@
 import {Badge, Box, Text, useColorModeValue} from "@chakra-ui/react";
 import React from "react";
 
-export default function ChildCardFlip(props) {
+export default function ChildCardFlip({
+  text,
+  isFrontCard,
+  internalWidths,
+  internalHeights,
+  isBroadways,
+}) {
   return (
     <Box
-      className={`card-face ${props.isFrontCard ? 'card-face-front' : 'card-face-back' }`}
-      maxW='sm'
+      className={`card-face ${isFrontCard ? 'card-face-front' : (isBroadways ? 'card-face-back-broadway' : 'card-face-back') }`}
       borderWidth='1px'
       borderRadius='lg'
       overflow='hidden'
       boxShadow='base'
-      bg={useColorModeValue('white', props.isFrontCard ? 'gray.900' : 'blackAlpha.600')}
+      bg={useColorModeValue(isFrontCard ? 'white' : 'whitesmoke', isFrontCard ? 'gray.900' : 'blackAlpha.600')}
+      w={internalWidths}
+      h={internalHeights}
     >
       <Box p='4'>
         <Box display='flex' alignItems='baseline'>
@@ -26,7 +33,7 @@ export default function ChildCardFlip(props) {
           noOfLines={1}
         >
           <Text textAlign={"center"}>
-            {props.text}
+            {text}
           </Text>
         </Box>
 

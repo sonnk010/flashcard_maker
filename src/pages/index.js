@@ -4,6 +4,7 @@ import {ChakraProvider} from '@chakra-ui/react'
 import {Router, Link} from "@reach/router"
 import Nav from "../components/nav/navbar";
 import Flashcard from "../components/contents/body";
+import Learning from "../components/contents/learning";
 
 export default function IndexPage() {
   return (
@@ -11,6 +12,7 @@ export default function IndexPage() {
       <Nav/>
       <Router>
         <Flashcard path="/" default/>
+        <Learning path="/learning"></Learning>
       </Router>
     </ChakraProvider>
   )

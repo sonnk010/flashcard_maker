@@ -1,0 +1,9 @@
+.active-link {
+    background-color: rgb(45 55 72);
+    border-radius: 0.375rem;
+}
+
+.active-link-light {
+    background-color: #cbd5e0;
+    border-radius: 0.375rem;
+}

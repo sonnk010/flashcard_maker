@@ -1,5 +1,6 @@
 import React from 'react';
 import {ReactNode} from 'react';
+import { Link as RouteLink } from 'gatsby';
 import {
   Box,
   Flex,
@@ -15,10 +16,11 @@ import {
   useColorModeValue,
   Stack,
   useColorMode,
-  Center, Container,
+  Center,
   HStack,
 } from '@chakra-ui/react';
 import {MoonIcon, SunIcon} from '@chakra-ui/icons';
+import './style.css'
 
 const Links = [
   {
@@ -31,33 +33,29 @@ const Links = [
   },
   {
     "name": "Exam",
-    "path": "/Exam",
+    "path": "/exam",
   },
 ];
 
-const NavLink = (props) => {
+function NavLink(props) {
   return (
-    <Link
-      px={2}
-      py={1}
-      rounded={'md'}
-      _hover={{
-        textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
-      }}
-      to={props.children.path}
-      getProps={({ isCurrent }) => {
-        // the object returned here is passed to the
-        // anchor element's props
-        return {
-          style: {
-            color: isCurrent ? "red" : "blue"
-          }
-        };
-      }}
+    <RouteLink
+    to={props.children.path}
+    activeClassName={useColorModeValue('active-link-light', 'active-link')}
     >
-      {props.children.name}
-    </Link>
+      <Link
+        as="div"
+        px={2}
+        py={1}
+        rounded={'md'}
+        _hover={{
+          textDecoration: 'none',
+          bg: useColorModeValue('gray.300', 'gray.700'),
+        }}
+      >
+        {props.children.name}
+      </Link>
+    </RouteLink>
   );
 }
 
@@ -74,7 +72,7 @@ export default function Nav() {
             spacing={4}
             display={{base: 'none', md: 'flex'}}>
             {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
+              <NavLink key={link.path}>{link}</NavLink>
             ))}
           </HStack>
         </HStack>
