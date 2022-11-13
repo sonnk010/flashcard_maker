@@ -1,20 +1,26 @@
 import React from "react"
 import {graphql} from "gatsby"
-import {ChakraProvider} from '@chakra-ui/react'
+import {ChakraProvider, Container} from '@chakra-ui/react'
 import {Router, Link} from "@reach/router"
 import Nav from "../components/nav/navbar";
 import Flashcard from "../components/contents/body";
-import Learning from "../components/contents/learning";
+import Learning from "./learning";
+import { Provider } from 'react-redux'
+import store from '../store'
 
 export default function IndexPage() {
   return (
-    <ChakraProvider>
-      <Nav/>
-      <Router>
-        <Flashcard path="/" default/>
-        <Learning path="/learning"></Learning>
-      </Router>
-    </ChakraProvider>
+    <Provider store={store}>
+      <ChakraProvider>
+        <Nav/>
+        <Container maxW='2lg' pt={20}>
+          <Router>
+            <Flashcard path="/" default/>
+            <Learning path="/learning"></Learning>
+          </Router>
+        </Container>
+      </ChakraProvider>
+    </Provider>
   )
 }
 
