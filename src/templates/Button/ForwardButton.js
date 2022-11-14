@@ -4,13 +4,10 @@ import {BiArrowBack} from "react-icons/bi";
 import React from "react";
 
 export default function ForwardButton(props) {
-  const index = useSelector((state) => state.counter.index)
-  const sources = useSelector((state) => state.counter.sources)
-  
+  const index = useSelector((state) => state.overviewFlashCard.index)
+  const sources = useSelector((state) => state.overviewFlashCard.sources)
   const isDisable = parseInt(index.toString()) === (sources.length - 1)
 
-  console.log(index.toString(), sources.length)
-  
   return (
     <LButton
       {...props}

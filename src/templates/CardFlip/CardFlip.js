@@ -11,8 +11,8 @@ export default function CardFlip({
                                  }) {
   // terminology
   // definition
-  const termi = useSelector((state) => state.counter.termi)
-  const defi = useSelector((state) => state.counter.defi)
+  const termi = useSelector((state) => state.overviewFlashCard.termi)
+  const defi = useSelector((state) => state.overviewFlashCard.defi)
 
   console.log("render CardFlip")
 

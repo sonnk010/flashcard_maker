@@ -4,7 +4,7 @@ import {BiArrowBack} from "react-icons/bi";
 import React from "react";
 
 export default function BackButton(props) {
-  const index = useSelector((state) => state.counter.index)
+  const index = useSelector((state) => state.overviewFlashCard.index)
   const isDisable = parseInt(index.toString()) === 0
 
   return (

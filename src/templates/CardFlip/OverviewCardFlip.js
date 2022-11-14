@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import CardFlip from "./CardFlip";
 import {useInterval, Wrap, WrapItem} from '@chakra-ui/react'
 import StartStopButton from "../Button/StartStopButton";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ForwardButton from "../Button/ForwardButton";
 import BackButton from "../Button/BackButton";
 
@@ -11,16 +11,18 @@ import {
   increment,
   incrementInterval,
   setDefaultFlashCard,
-  setFlashCardState
+  setFlashCardState,
+  setPlaying,
 } from '../../features/runFlashCard'
 
-export default function OverViewCardFlip(props) {
+export default function OverviewCardFlip(props) {
   const dispatch = useDispatch()
 
   const [delay, setDelay] = useState(5000)
+  const isRepeated = true
 
   // ON/OFF
-  const [isPlaying, setPlaying] = useState(false)
+  const isPlaying = useSelector((state) => state.overviewFlashCard.isPlaying)
 
   useInterval(
     () => {
@@ -35,14 +37,12 @@ export default function OverViewCardFlip(props) {
 
   useEffect(() => {
     dispatch(setDefaultFlashCard())
-  })
+  }, [])
 
-  console.log('render overview')
+  console.log('render overview runner')
 
-  const isRepeated = true
-
-  const triggerPlaying = (isPlaying) => {
-    setPlaying(!isPlaying)
+  const triggerPlaying = () => {
+    dispatch(setPlaying())
   }
 
   const forward = () => {
@@ -71,7 +71,7 @@ export default function OverViewCardFlip(props) {
           <BackButton onClick={back}/>
         </WrapItem>
         <WrapItem onClick={() => {
-          triggerPlaying(isPlaying)
+          triggerPlaying()
         }}>
           <StartStopButton/>
         </WrapItem>
