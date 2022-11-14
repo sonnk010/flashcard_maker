@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react"
 import CardFlip from "./CardFlip";
 import {useInterval, Wrap, WrapItem} from '@chakra-ui/react'
-import LButton from "../Button/LButton";
-import {BiArrowBack} from "react-icons/bi"
 import StartStopButton from "../Button/StartStopButton";
 import {useDispatch} from "react-redux";
+import ForwardButton from "../Button/ForwardButton";
+import BackButton from "../Button/BackButton";
+
 import {
   decrement,
   increment,
@@ -45,13 +46,13 @@ export default function OverViewCardFlip(props) {
   }
 
   const forward = () => {
-    dispatch(increment)
-    dispatch(setFlashCardState)
+    dispatch(increment())
+    dispatch(setFlashCardState())
   }
 
   const back = () => {
-    dispatch(decrement)
-    dispatch(setFlashCardState)
+    dispatch(decrement())
+    dispatch(setFlashCardState())
   }
 
   return (
@@ -67,8 +68,7 @@ export default function OverViewCardFlip(props) {
       </Wrap>
       <Wrap justifyContent={"center"} justify='center' mt={5}>
         <WrapItem>
-          <LButton rightIcon={<BiArrowBack size={30}/>} onClick={back}>
-          </LButton>
+          <BackButton onClick={back}/>
         </WrapItem>
         <WrapItem onClick={() => {
           triggerPlaying(isPlaying)
@@ -76,10 +76,7 @@ export default function OverViewCardFlip(props) {
           <StartStopButton/>
         </WrapItem>
         <WrapItem>
-          <LButton rightIcon={<BiArrowBack style={{transform: 'rotate(180deg)'}} size={30} onClick={() => {
-            forward()
-          }}/>}>
-          </LButton>
+          <ForwardButton onClick={forward} isDisabled={true}/>
         </WrapItem>
       </Wrap>
     </>
