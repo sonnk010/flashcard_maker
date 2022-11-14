@@ -15,7 +15,7 @@ import {
   setFlashCardState, 
   setFlip,
   setPlaying,
-  setSkipFlip,
+  setDelayFlip,
 } from '../../features/runFlashCard'
 
 export default function OverviewFlipCard(props) {
@@ -26,7 +26,7 @@ export default function OverviewFlipCard(props) {
 
   // ON/OFF
   const isPlaying = useSelector((state) => state.overviewFlashCard.isPlaying)
-  const skipFlip = useSelector((state) => state.overviewFlashCard.skipFlip)
+  const delayFlip = useSelector((state) => state.overviewFlashCard.delayFlip)
 
   useInterval(
     async () => {
@@ -38,14 +38,13 @@ export default function OverviewFlipCard(props) {
 
   useInterval(
     async () => {
+      console.log("setFlip()")
       await dispatch(setFlip())
-      if (skipFlip) {
-        await dispatch(setEmptyFlashCard())
-        await dispatch(setFlashCardState())
+      if (delayFlip) {
+        await dispatch(setDelayFlip(false))
       }
-      await dispatch(setSkipFlip())
     },
-    isPlaying ? delay/2 : null,
+    isPlaying ? delay - (delayFlip ? delay/2 : 0) : null,
   )
 
 
