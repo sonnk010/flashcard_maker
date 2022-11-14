@@ -1,24 +1,30 @@
 import React, {useState} from "react"
 import './style.css'
 import {Box} from '@chakra-ui/react'
-import ChildCardFlip from "./ChildCardFlip";
-import {useSelector} from "react-redux";
+import ChildFlipCard from "./ChildFlipCard";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  setFlip
+} from '../../features/runFlashCard'
 
-export default function CardFlip({
-                                   widths,
-                                   heights,
-                                   isBroadways,
-                                 }) {
+export default function FlipCard(
+  {
+    widths,
+    heights,
+    isBroadways,
+  }) {
   // terminology
   // definition
   const termi = useSelector((state) => state.overviewFlashCard.termi)
   const defi = useSelector((state) => state.overviewFlashCard.defi)
+  const isFlip = useSelector((state) => state.overviewFlashCard.isFlip)
+  
+  const dispatch = useDispatch()
 
-  console.log("render CardFlip")
-
-  const [isFlipped, setFlipped] = useState(false)
+  console.log("render FlipCard")
+  
   const flip = () => {
-    setFlipped(!isFlipped)
+    dispatch(setFlip())
   }
 
   let internalWidths = widths
@@ -38,8 +44,8 @@ export default function CardFlip({
         className={isBroadways ? 'scene-broadway' : 'scene'}
         w={internalWidths}
         h={internalHeights}>
-        <div className={`card ${isFlipped ? (isBroadways ? "is-flipped-broadway" : "is-flipped") : ""}`} onClick={flip}>
-          <ChildCardFlip
+        <div className={`card ${isFlip ? (isBroadways ? "is-flipped-broadway" : "is-flipped") : ""}`} onClick={flip}>
+          <ChildFlipCard
             isFrontCard={true}
             text={termi}
             w={internalWidths}
@@ -47,7 +53,7 @@ export default function CardFlip({
             isBroadways={isBroadways}
             key={1}
           />
-          <ChildCardFlip
+          <ChildFlipCard
             isFrontCard={false}
             text={defi}
             w={internalWidths}

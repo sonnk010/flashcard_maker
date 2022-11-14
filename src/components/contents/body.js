@@ -1,9 +1,9 @@
 import React from "react"
-import OverviewCardFlip from "../../templates/CardFlip/OverviewCardFlip";
+import OverviewFlipCard from "../../templates/CardFlip/OverviewFlipCard";
 
 export default function Flashcard() {
   console.log("render flashcard")
   return (
-    <OverviewCardFlip/>
+    <OverviewFlipCard/>
   )
 }

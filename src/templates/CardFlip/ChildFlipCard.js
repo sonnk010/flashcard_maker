@@ -1,7 +1,7 @@
 import {Badge, Box, Text, useColorModeValue} from "@chakra-ui/react";
 import React from "react";
 
-export default function ChildCardFlip({
+export default function ChildFlipCard({
                                         text,
                                         isFrontCard,
                                         internalWidths,

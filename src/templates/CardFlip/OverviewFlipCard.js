@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import CardFlip from "./CardFlip";
+import FlipCard from "./FlipCard";
 import {useInterval, Wrap, WrapItem} from '@chakra-ui/react'
 import StartStopButton from "../Button/StartStopButton";
 import {useDispatch, useSelector} from "react-redux";
@@ -11,27 +11,41 @@ import {
   increment,
   incrementInterval,
   setDefaultFlashCard,
-  setFlashCardState,
+  setEmptyFlashCard,
+  setFlashCardState, 
+  setFlip,
   setPlaying,
+  setSkipFlip,
 } from '../../features/runFlashCard'
 
-export default function OverviewCardFlip(props) {
+export default function OverviewFlipCard(props) {
   const dispatch = useDispatch()
 
-  const [delay, setDelay] = useState(5000)
+  const [delay, setDelay] = useState(8000)
   const isRepeated = true
 
   // ON/OFF
   const isPlaying = useSelector((state) => state.overviewFlashCard.isPlaying)
+  const skipFlip = useSelector((state) => state.overviewFlashCard.skipFlip)
 
   useInterval(
-    () => {
-      // Your custom logic here
-      dispatch(incrementInterval())
-      dispatch(setFlashCardState())
+    async () => {
+      await dispatch(incrementInterval())
+      await dispatch(setFlashCardState())
     },
-    // Delay in milliseconds or null to stop it
     isPlaying ? delay : null,
+  )
+
+  useInterval(
+    async () => {
+      await dispatch(setFlip())
+      if (skipFlip) {
+        await dispatch(setEmptyFlashCard())
+        await dispatch(setFlashCardState())
+      }
+      await dispatch(setSkipFlip())
+    },
+    isPlaying ? delay/2 : null,
   )
 
 
@@ -45,21 +59,23 @@ export default function OverviewCardFlip(props) {
     dispatch(setPlaying())
   }
 
-  const forward = () => {
-    dispatch(increment())
-    dispatch(setFlashCardState())
+  const forward = async () => {
+    await dispatch(setPlaying(false))
+    await dispatch(increment())
+    await dispatch(setFlashCardState())
   }
 
-  const back = () => {
-    dispatch(decrement())
-    dispatch(setFlashCardState())
+  const back = async () => {
+    await dispatch(setPlaying(false))
+    await dispatch(decrement())
+    await dispatch(setFlashCardState())
   }
 
   return (
     <>
       <Wrap justifyContent={"center"} justify='center'>
         <WrapItem>
-          <CardFlip
+          <FlipCard
             heights={[200, 330, 600]}
             widths={[300, 400, 500, 800]}
             isBroadways={true}

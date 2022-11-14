@@ -4,6 +4,8 @@ export const flashCardSlice = createSlice({
   name: 'overviewFlashCard',
   initialState: {
     isPlaying: false,
+    isFlip: false,
+    skipFlip: true,
     index: 0,
     termi: '',
     defi: '',
@@ -47,9 +49,23 @@ export const flashCardSlice = createSlice({
       state.defi = state.sources[0]?.defi
       state.termi = state.sources[0]?.termi
     },
-    setPlaying: (state) => {
-      state.isPlaying = !state.isPlaying
+    setEmptyFlashCard: (state) => {
+      state.defi = ""
+      state.termi = ""
     },
+    setPlaying: (state, data) => {
+      if (data.payload) {
+        state.isPlaying = data.payload
+      } else {
+        state.isPlaying = !state.isPlaying
+      }
+    },
+    setFlip: (state) => {
+      state.isFlip = !state.isFlip
+    },
+    setSkipFlip: (state) => {
+      state.skipFlip = !state.skipFlip
+    }
   },
 })
 
@@ -58,9 +74,12 @@ export const {
   increment,
   decrement,
   setFlashCardState,
+  setEmptyFlashCard,
   incrementInterval,
   setDefaultFlashCard,
-  setPlaying
+  setPlaying,
+  setFlip,
+  setSkipFlip,
 } = flashCardSlice.actions
 
 export default flashCardSlice.reducer
