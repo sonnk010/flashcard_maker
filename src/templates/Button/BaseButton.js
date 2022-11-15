@@ -7,7 +7,7 @@ export default function BaseButton(props) {
       {...props}
       size='md'
       border='2px'
-      borderColor='green.500'
+      borderColor='blue.500'
     />
   )
 }
