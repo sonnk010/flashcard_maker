@@ -20,8 +20,6 @@ export default function FlipCard(
   const isFlip = useSelector((state) => state.overviewFlashCard.isFlip)
   
   const dispatch = useDispatch()
-
-  console.log("render FlipCard")
   
   const flip = () => {
     dispatch(setFlip())

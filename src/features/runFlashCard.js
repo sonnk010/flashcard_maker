@@ -26,15 +26,12 @@ export const flashCardSlice = createSlice({
   },
   reducers: {
     increment: (state) => {
-      console.log(state.index);
       state.index += 1
     },
     decrement: (state) => {
-      console.log(state.index);
       state.index -= 1
     },
     incrementInterval: (state) => {
-      console.log(state.index);
       if (state.index === state.sources.length - 1) {
         state.index = 0
       } else {
@@ -54,7 +51,7 @@ export const flashCardSlice = createSlice({
       state.termi = ""
     },
     setPlaying: (state, data) => {
-      if (data.payload) {
+      if (data.payload != undefined) {
         state.isPlaying = data.payload
       } else {
         state.isPlaying = !state.isPlaying

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import FlipCard from "./FlipCard";
-import {useInterval, Wrap, WrapItem} from '@chakra-ui/react'
+import {useInterval, Wrap, WrapItem, Progress, Text} from '@chakra-ui/react'
 import StartStopButton from "../Button/StartStopButton";
 import {useDispatch, useSelector} from "react-redux";
 import ForwardButton from "../Button/ForwardButton";
@@ -27,21 +27,26 @@ export default function OverviewFlipCard(props) {
   // ON/OFF
   const isPlaying = useSelector((state) => state.overviewFlashCard.isPlaying)
   const delayFlip = useSelector((state) => state.overviewFlashCard.delayFlip)
+  const sources = useSelector((state) => state.overviewFlashCard.sources)
+  const index = useSelector((state) => state.overviewFlashCard.index)
+  const sleep = ms => new Promise(
+    resolve => setTimeout(resolve, ms));
 
   useInterval(
     async () => {
       await dispatch(incrementInterval())
-      await dispatch(setFlashCardState())
     },
     isPlaying ? delay : null,
   )
 
   useInterval(
     async () => {
-      console.log("setFlip()")
       await dispatch(setFlip())
       if (delayFlip) {
+        await dispatch(setEmptyFlashCard())
+        await sleep(200)
         await dispatch(setDelayFlip(false))
+        await dispatch(setFlashCardState())
       }
     },
     isPlaying ? delay - (delayFlip ? delay/2 : 0) : null,
@@ -51,8 +56,6 @@ export default function OverviewFlipCard(props) {
   useEffect(() => {
     dispatch(setDefaultFlashCard())
   }, [])
-
-  console.log('render overview runner')
 
   const triggerPlaying = () => {
     dispatch(setPlaying())
@@ -72,6 +75,10 @@ export default function OverviewFlipCard(props) {
 
   return (
     <>
+      <Text textAlign={"center"}>
+        {index + 1} / {sources.length}
+      </Text>
+      <Progress value={(((index + 1) / sources.length) * 100).toFixed()} size="xs" mb="4" />
       <Wrap justifyContent={"center"} justify='center'>
         <WrapItem>
           <FlipCard
