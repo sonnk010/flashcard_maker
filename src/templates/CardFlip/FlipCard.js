@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import './style.css'
 import {Box} from '@chakra-ui/react'
 import ChildFlipCard from "./ChildFlipCard";

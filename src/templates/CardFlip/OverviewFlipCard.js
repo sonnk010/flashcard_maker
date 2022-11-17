@@ -55,7 +55,7 @@ export default function OverviewFlipCard(props) {
 
   useEffect(() => {
     dispatch(setDefaultFlashCard())
-  }, [])
+  }, )
 
   const triggerPlaying = () => {
     dispatch(setPlaying())

@@ -51,7 +51,7 @@ export const flashCardSlice = createSlice({
       state.termi = ""
     },
     setPlaying: (state, data) => {
-      if (data.payload != undefined) {
+      if (data.payload !== undefined) {
         state.isPlaying = data.payload
       } else {
         state.isPlaying = !state.isPlaying

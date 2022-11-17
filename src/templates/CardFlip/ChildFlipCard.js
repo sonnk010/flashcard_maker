@@ -13,6 +13,7 @@ export default function ChildFlipCard({
       className={`card-face ${isFrontCard ? 'card-face-front' : (isBroadways ? 'card-face-back-broadway' : 'card-face-back')}`}
       borderWidth='1px'
       borderRadius='lg'
+      borderColor='blue.500'
       overflow='hidden'
       boxShadow='base'
       bg={useColorModeValue(isFrontCard ? 'white' : 'whitesmoke', isFrontCard ? 'gray.900' : 'blackAlpha.600')}

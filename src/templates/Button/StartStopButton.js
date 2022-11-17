@@ -1,14 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import LButton from "./LButton";
 import {MdOutlinePauseCircleFilled} from "react-icons/md"
 import {VscDebugStart} from "react-icons/vsc"
-import {useDispatch, useSelector} from "react-redux";
-import {
-  setPlaying,
-} from '../../features/runFlashCard'
+import { useSelector } from "react-redux";
 
 export default function StartStopButton(props) {
-  const dispatch = useDispatch()
   const isPlaying = useSelector((state) => state.overviewFlashCard.isPlaying)
   return (
     <LButton
