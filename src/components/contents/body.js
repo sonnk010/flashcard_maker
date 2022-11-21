@@ -1,5 +1,5 @@
 import React from "react"
-import OverviewFlipCard from "../../templates/CardFlip/OverviewFlipCard";
+import OverviewFlipCard from "../../templates/FlipCard/OverviewFlipCard";
 
 export default function Flashcard() {
   return (
