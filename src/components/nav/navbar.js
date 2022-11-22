@@ -26,6 +26,10 @@ const Links = [
     "path": "/",
   },
   {
+    "name": "Cards",
+    "path": "/cards",
+  },
+  {
     "name": "Learning",
     "path": "/learning",
   },

@@ -1,32 +1,49 @@
-import React from "react"
-import {graphql} from "gatsby"
-import {ChakraProvider, Container} from '@chakra-ui/react'
-import {Router} from "@reach/router"
-import Nav from "../components/nav/navbar";
+import React, { useEffect } from "react"
+import { Link, useStaticQuery, graphql } from 'gatsby'
+import { ChakraProvider } from '@chakra-ui/react'
+import { Router } from "@reach/router"
 import Flashcard from "../components/contents/body";
 import Learning from "./learning";
-import {Provider} from 'react-redux'
-import store from '../store'
+import Cards from "./cards";
+import { useDispatch } from "react-redux";
+import { setSources } from "../features/runFlashCard";
 
 export default function IndexPage() {
+  const dispatch = useDispatch()
+  let data = useStaticQuery(graphql`
+    query {
+      swapi {
+        countries {
+          name
+          emoji
+          languages {
+            name
+            native
+          }
+        }
+      }
+    }
+  `)
+
+  useEffect(() => {
+    const sourcesTemp = []
+    for (let item of data['swapi']['countries']) {
+      sourcesTemp.push({
+        defi: item.name,
+        termi: item.emoji
+      })
+    }
+
+    dispatch(setSources(sourcesTemp))
+  }, )
+
   return (
-    <Provider store={store}>
-      <ChakraProvider>
-        <Nav/>
-        <Container maxW='2lg' pt={20}>
-          <Router>
-            <Flashcard path="/" default/>
-            <Learning path="/learning"></Learning>
-          </Router>
-        </Container>
-      </ChakraProvider>
-    </Provider>
+    <ChakraProvider>
+      <Router>
+        <Flashcard path="/" default/>
+        <Cards path="/cards"/>
+        <Learning path="/learning"/>
+      </Router>
+    </ChakraProvider>
   )
 }
-
-export const query = graphql`
-  query{
-  directory {
-    sourceInstanceName
-  }
-}`

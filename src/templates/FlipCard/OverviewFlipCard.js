@@ -82,7 +82,7 @@ export default function OverviewFlipCard(props) {
       <Wrap justifyContent={"center"} justify='center'>
         <WrapItem>
           <FlipCard
-            heights={[200, 330, 600]}
+            heights={[200, 330, 500]}
             widths={[300, 400, 500, 800]}
             isBroadways={true}
           />

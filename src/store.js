@@ -1,8 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit'
 import flashCardSlice from './features/runFlashCard'
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     overviewFlashCard: flashCardSlice
   },
-})
+});
+
+export default store
