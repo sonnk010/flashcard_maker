@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link as RouteLink} from 'gatsby';
+import { deleleCookie } from "../../utils/cookie";
 import {
   Avatar,
   Box,
@@ -64,6 +65,12 @@ function NavLink(props) {
 export default function Nav() {
   const {colorMode, toggleColorMode} = useColorMode();
   // const {isOpen, onOpen, onClose} = useDisclosure();
+
+  const logout = () => {
+    deleleCookie("token")
+    window.location.href = "/login"
+  }
+
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} position={"fixed"} width={"100%"} zIndex={99999}>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
@@ -111,7 +118,7 @@ export default function Nav() {
                 <MenuDivider/>
                 <MenuItem>Your Servers</MenuItem>
                 <MenuItem>Account Settings</MenuItem>
-                <MenuItem>Logout</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Stack>

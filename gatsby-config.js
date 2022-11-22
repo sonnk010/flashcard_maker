@@ -1,12 +1,24 @@
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
+
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `flashcard_maker`,
     siteUrl: `https://www.yourdomain.tld`
   },
   plugins: [
+    {
+      resolve: `gatsby-source-custom-api`,
+      options: {
+        apiUrl: process.env.API_URL,
+        graphqlUrl: process.env.GRAPHQL_URL,
+      },
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
