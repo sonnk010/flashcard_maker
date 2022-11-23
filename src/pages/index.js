@@ -1,12 +1,14 @@
 import React, { useEffect } from "react"
-import { Link, useStaticQuery, graphql } from 'gatsby'
+import { Link, useStaticQuery, graphql, navigate } from 'gatsby'
 import { ChakraProvider } from '@chakra-ui/react'
 import { Router } from "@reach/router"
-import Flashcard from "../components/contents/body";
-import Learning from "./learning";
-import Cards from "./cards";
+import Flashcard from "./app/flash-card";
+import Learning from "./app/learning";
+import Cards from "./app/cards";
 import { useDispatch } from "react-redux";
 import { setSources } from "../features/runFlashCard";
+import PrivateRoute from "../components/route/PrivateRoute";
+import Home from "./home";
 
 export default function IndexPage() {
   const dispatch = useDispatch()
@@ -40,9 +42,10 @@ export default function IndexPage() {
   return (
     <ChakraProvider>
       <Router>
-        <Flashcard path="/" default/>
-        <Cards path="/cards"/>
-        <Learning path="/learning"/>
+        <PrivateRoute path="/" component={Home} default/>
+        <PrivateRoute path="/app" component={Flashcard}/>
+        <PrivateRoute path="/app/cards" component={Cards}/>
+        <PrivateRoute path="/app/learning" component={Learning}/>
       </Router>
     </ChakraProvider>
   )

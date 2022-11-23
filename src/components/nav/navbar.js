@@ -23,20 +23,24 @@ import './style.css'
 
 const Links = [
   {
-    "name": "Flashcard",
+    "name": "Home",
     "path": "/",
   },
   {
+    "name": "Flashcard",
+    "path": "/app/flash-card",
+  },
+  {
     "name": "Cards",
-    "path": "/cards",
+    "path": "/app/cards",
   },
   {
     "name": "Learning",
-    "path": "/learning",
+    "path": "/app/learning",
   },
   {
     "name": "Exam",
-    "path": "/exam",
+    "path": "/app/exam",
   },
 ];
 
