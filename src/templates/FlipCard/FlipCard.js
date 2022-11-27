@@ -13,10 +13,8 @@ export default function FlipCard(
     heights,
     isBroadways,
   }) {
-  // terminology
-  // definition
-  const termi = useSelector((state) => state.overviewFlashCard.termi)
-  const defi = useSelector((state) => state.overviewFlashCard.defi)
+  const terminology = useSelector((state) => state.overviewFlashCard.terminology)
+  const definition = useSelector((state) => state.overviewFlashCard.definition)
   const isFlip = useSelector((state) => state.overviewFlashCard.isFlip)
   
   const dispatch = useDispatch()
@@ -45,7 +43,7 @@ export default function FlipCard(
         <div className={`card ${isFlip ? (isBroadways ? "is-flipped-broadway" : "is-flipped") : ""}`} onClick={flip}>
           <ChildFlipCard
             isFrontCard={true}
-            text={termi}
+            text={terminology}
             w={internalWidths}
             h={internalHeights}
             isBroadways={isBroadways}
@@ -53,7 +51,7 @@ export default function FlipCard(
           />
           <ChildFlipCard
             isFrontCard={false}
-            text={defi}
+            text={definition}
             w={internalWidths}
             h={internalHeights}
             isBroadways={isBroadways}

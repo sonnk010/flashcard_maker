@@ -15,6 +15,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.1",
     "@chakra-ui/gatsby-plugin": "^3.0.6",
     "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/react": "^2.3.7",
@@ -28,10 +29,12 @@
     "dotenv": "^16.0.3",
     "framer-motion": "^7.6.6",
     "gatsby": "^5.0.0",
+    "gatsby-plugin-apollo": "^4.0.2",
     "gatsby-plugin-manifest": "^5.0.0",
     "gatsby-plugin-styled-components": "^6.0.0",
     "gatsby-source-custom-api": "^2.3.6",
     "gatsby-source-graphql": "^5.0.0",
+    "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",

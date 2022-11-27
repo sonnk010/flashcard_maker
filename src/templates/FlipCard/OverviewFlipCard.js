@@ -16,7 +16,10 @@ import {
   setFlip,
   setPlaying,
   setDelayFlip,
+  setSources,
 } from '../../features/runFlashCard'
+import { GET_CARDS } from "../../graphql/queries";
+import apolloClient from "../../graphql/apolloClient";
 
 export default function OverviewFlipCard(props) {
   const dispatch = useDispatch()
@@ -29,8 +32,11 @@ export default function OverviewFlipCard(props) {
   const delayFlip = useSelector((state) => state.overviewFlashCard.delayFlip)
   const sources = useSelector((state) => state.overviewFlashCard.sources)
   const index = useSelector((state) => state.overviewFlashCard.index)
+  const courseID = useSelector((state) => state.courses.courseId)
+
   const sleep = ms => new Promise(
-    resolve => setTimeout(resolve, ms));
+    resolve => setTimeout(resolve, ms)
+  );
 
   useInterval(
     async () => {
@@ -72,6 +78,27 @@ export default function OverviewFlipCard(props) {
     await dispatch(decrement())
     await dispatch(setFlashCardState())
   }
+
+  // setup cards
+  const fetchCards = async () => {
+    const { loading, error, data } = await apolloClient.query({
+      query: GET_CARDS,
+      variables: {
+        courseID: courseID
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+    if (data) {
+      dispatch(setSources([...data.getCards]))
+    }
+  };
+
+  useEffect(() => {
+    if (courseID !== undefined || courseID != "") {
+      fetchCards()
+    }
+  }, [courseID])
 
   return (
     <>

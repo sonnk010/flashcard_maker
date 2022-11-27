@@ -12,8 +12,8 @@ export default function Card(
     widths,
     heights,
     isBroadways,
-    termi,
-    defi,
+    terminology,
+    definition,
   }) {
   // terminology
   // definition
@@ -43,7 +43,7 @@ export default function Card(
         <div className={`card ${isFlip ? (isBroadways ? "is-flipped-broadway" : "is-flipped") : ""}`} onClick={flip}>
           <ChildFlipCard
             isFrontCard={true}
-            text={termi}
+            text={terminology}
             w={internalWidths}
             h={internalHeights}
             isBroadways={isBroadways}
@@ -51,7 +51,7 @@ export default function Card(
           />
           <ChildFlipCard
             isFrontCard={false}
-            text={defi}
+            text={definition}
             w={internalWidths}
             h={internalHeights}
             isBroadways={isBroadways}

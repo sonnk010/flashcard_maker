@@ -12,8 +12,8 @@ export default function Cards(props) {
         {sources.map((data) =>
           <WrapItem p="1">
             <Card
-              termi={data.termi}
-              defi={data.defi}
+              terminology={data.terminology}
+              definition={data.definition}
             />
           </WrapItem>
         )}

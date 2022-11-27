@@ -7,20 +7,20 @@ export const flashCardSlice = createSlice({
     isFlip: false,
     delayFlip: true,
     index: 0,
-    termi: '',
-    defi: '',
+    terminology: '',
+    definition: '',
     sources: [
       {
-        defi: "1234",
-        termi: "Mot hai ba bon"
+        definition: "1234",
+        terminology: "Mot hai ba bon"
       },
       {
-        defi: "12345",
-        termi: "Mot hai ba bon nam"
+        definition: "12345",
+        terminology: "Mot hai ba bon nam"
       },
       {
-        defi: "123456",
-        termi: "Mot hai ba bon nam sau"
+        definition: "123456",
+        terminology: "Mot hai ba bon nam sau"
       },
     ]
   },
@@ -39,16 +39,16 @@ export const flashCardSlice = createSlice({
       }
     },
     setFlashCardState: (state) => {
-      state.defi = state.sources[state.index]?.defi
-      state.termi = state.sources[state.index]?.termi
+      state.definition = state.sources[state.index]?.definition
+      state.terminology = state.sources[state.index]?.terminology
     },
     setDefaultFlashCard: (state) => {
-      state.defi = state.sources[0]?.defi
-      state.termi = state.sources[0]?.termi
+      state.definition = state.sources[0]?.definition
+      state.terminology = state.sources[0]?.terminology
     },
     setEmptyFlashCard: (state) => {
-      state.defi = ""
-      state.termi = ""
+      state.definition = ""
+      state.terminology = ""
     },
     setPlaying: (state, data) => {
       if (data.payload !== undefined) {
