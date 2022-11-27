@@ -32,7 +32,7 @@ module.exports = {
          * @property {boolean} [resetCSS=true]
          * if false, this plugin will not use `<CSSReset />
          */
-        resetCSS: true,
+        resetCSS: false,
         /**
          * @property {boolean} [isUsingColorMode=true]
          * if false, this plugin will not use <ColorModeProvider />

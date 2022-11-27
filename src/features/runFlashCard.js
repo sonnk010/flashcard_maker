@@ -66,6 +66,13 @@ export const flashCardSlice = createSlice({
     setSources: (state, data) => {
       state.sources = data.payload
       return state
+    },
+    addSources: (state, data) => {
+      console.log(data);
+      state.sources = [
+        ...state.sources,
+        data.payload,
+      ]
     }
   },
 })
@@ -82,6 +89,7 @@ export const {
   setFlip,
   setDelayFlip,
   setSources,
+  addSources,
 } = flashCardSlice.actions
 
 export default flashCardSlice.reducer
