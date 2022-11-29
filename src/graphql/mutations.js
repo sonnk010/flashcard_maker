@@ -16,3 +16,19 @@ export const CREATE_CARD = gql`
     }
   }
 `;
+
+export const CREATE_CARD_FROM_CLIPBOARD = gql`
+  mutation createCardsFromText($name: String!, $description: String, $text: String!) {
+    createCardsFromText(input: {
+      name: $name
+      description: $description
+      text: $text
+    }) {
+      id
+      terminology
+      definition
+      courseId
+      __typename
+    }
+  }
+`;
