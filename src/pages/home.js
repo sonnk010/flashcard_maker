@@ -3,13 +3,14 @@ import BaseContainer from "../components/contents/BaseContainer";
 import apolloClient from "../graphql/apolloClient";
 import { GET_COURSES } from "../graphql/queries";
 import { CREATE_CARD_FROM_CLIPBOARD } from "../graphql/mutations";
-import { Button, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Text, Lorem, ModalFooter, useDisclosure, Input } from '@chakra-ui/react'
+import { Button, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Text, Lorem, ModalFooter, useDisclosure, Input, useToast } from '@chakra-ui/react'
 import { useDispatch } from "react-redux";
 import { setCourseID } from "../features/courses";
 import { Link } from "gatsby";
 
 export default function Home() {
   const dispatch = useDispatch()
+  const toast = useToast()
   const [courses, setCourses] = useState([])
   const [nameCourse, setNameCourse] = useState("")
   const [descriptionCourse, setDescriptionCourse] = useState("")
@@ -34,20 +35,40 @@ export default function Home() {
   
   const importCardFromClipboard = async () => {
     let text = await navigator.clipboard.readText();
-    console.log(text);
-    const { data } = await apolloClient.mutate({
-      mutation: CREATE_CARD_FROM_CLIPBOARD,
-      variables: {
-        name: nameCourse,
-        description: descriptionCourse,
-        text: text
+    try {
+      const { data } = await apolloClient.mutate({
+        mutation: CREATE_CARD_FROM_CLIPBOARD,
+        variables: {
+          name: nameCourse,
+          description: descriptionCourse,
+          text: text
+        }
+      })
+      if (data) {
+        toast({
+          title: `Import is finished`,
+          variant: ['solid', 'subtle', 'left-accent', 'top-accent'],
+          isClosable: true,
+          position: "bottom",
+          status: "success",
+        })
+        console.log(data);
+        return
       }
-    }).catch((err) => {
+    } catch(err) {
       console.log(err)
-    })
-    if (data) {
-      console.log(data);
+      toast({
+        title: `Import is failed, please check input and try again`,
+        variant: ['solid', 'subtle', 'left-accent', 'top-accent'],
+        isClosable: true,
+        position: "bottom",
+        status: "error",
+      })
+      return
+    } finally {
+      onClose()
     }
+    
   }
 
   return (
