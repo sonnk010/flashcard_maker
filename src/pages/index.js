@@ -11,7 +11,7 @@ import PrivateRoute from "../components/route/PrivateRoute";
 import Home from "./home";
 
 export default function IndexPage() {
-
+  registerServiceWorker()
   return (
     <ChakraProvider>
       <Router>
@@ -22,4 +22,28 @@ export default function IndexPage() {
       </Router>
     </ChakraProvider>
   )
+}
+
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) {
+    console.log("Service Worker isn't supported on this browser")
+    return
+  }
+
+  if (!('PushManager' in window)) {
+    console.log("Push isn't supported on this browser")
+    return
+  }
+
+  return navigator.serviceWorker
+    .register('/sw')
+    .then(function (registration) {
+      console.log('Service worker successfully registered.');
+      console.log(registration)
+      return registration;
+    })
+    .catch(function (err) {
+      console.error('Unable to register service worker.', err);
+    });
+
 }
