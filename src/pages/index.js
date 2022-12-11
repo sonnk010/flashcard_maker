@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { setSources } from "../features/runFlashCard";
 import PrivateRoute from "../components/route/PrivateRoute";
 import Home from "./home";
+import { axiosClient } from "../utils/axios";
+import {setCookie} from "../utils/cookie";
 
 export default function IndexPage() {
   registerServiceWorker()
@@ -25,25 +27,53 @@ export default function IndexPage() {
 }
 
 function registerServiceWorker() {
-  if (!('serviceWorker' in navigator)) {
-    console.log("Service Worker isn't supported on this browser")
-    return
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.ready
+      .then(function(registration) {
+        return registration.pushManager.getSubscription();
+      })
+      .then(function(subscription) {
+        if (!subscription) {
+          subscribe();
+        } else {
+          console.log(
+            JSON.stringify(subscription)
+          );
+        }
+      });
   }
+}
 
-  if (!('PushManager' in window)) {
-    console.log("Push isn't supported on this browser")
-    return
-  }
-
-  return navigator.serviceWorker
-    .register('/sw')
-    .then(function (registration) {
-      console.log('Service worker successfully registered.');
-      console.log(registration)
-      return registration;
+function subscribe() {
+  navigator.serviceWorker.ready
+    .then(function(registration) {
+      const vapidPublicKey = process.env.VAPID_PUBLIC_KEY
+      return registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
+      });
     })
-    .catch(function (err) {
-      console.error('Unable to register service worker.', err);
-    });
+    .then(function(subscription) {
+      console.log(
+        JSON.stringify(subscription)
+      );
+      axiosClient.post("/user/subscribe-notification", {
+        subscription: JSON.stringify(subscription),
+      }).then((res) => {
+        console.log("Subscription!")
+      }).catch((err) => {
+        console.log(err)
+      })
+    })
+    .catch(err => console.error(err));
+}
 
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
 }

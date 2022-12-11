@@ -12,6 +12,7 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  ChakraProvider,
 } from '@chakra-ui/react';
 import { axiosClient } from "../utils/axios";
 import { setCookie } from "../utils/cookie";
@@ -47,7 +48,8 @@ export default function LoginForm() {
   }
 
   return (
-    <Flex
+    <ChakraProvider>
+      <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}
@@ -96,6 +98,7 @@ export default function LoginForm() {
           </Stack>
         </Box>
       </Stack>
-    </Flex>
+      </Flex>
+    </ChakraProvider>
   );
 }
