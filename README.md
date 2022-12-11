@@ -2,6 +2,10 @@
   Flashcard Maker
 </h1>
 
+<h2 align="center">
+  Inspiration from https://quizlet.com/
+</h2>
+
 ## 🚀 Quick start
 
 **1.  Config.**
