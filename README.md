@@ -17,6 +17,7 @@
  
     ```shell
     cd flashcard_maker/
+    npm install
     npm run develop
     ```
     
