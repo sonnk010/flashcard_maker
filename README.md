@@ -8,13 +8,13 @@
 
 ## 🚀 Quick start
 
-**1.  Config.**
+1.  **Config.**
 
     Edit .env.development base on backend source https://github.com/khacsonit/gingonic
     
     Generating VAPID Keys: https://github.com/SherClockHolmes/webpush-go
     
-**2.  Start.**
+2.  **Start.**
 
     Navigate into your new site’s directory and start it up.
     
