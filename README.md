@@ -3,7 +3,7 @@
 </h1>
 
 <h2 align="center">
-  Inspiration from https://quizlet.com/
+  Inspiration from https://quizlet.com
 </h2>
 
 ## 🚀 Quick start
