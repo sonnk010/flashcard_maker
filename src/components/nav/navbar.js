@@ -42,6 +42,10 @@ const Links = [
     "name": "Exam",
     "path": "/app/exam",
   },
+  {
+    "name": "Reminder",
+    "path": "/app/reminder",
+  }
 ];
 
 function NavLink(props) {
