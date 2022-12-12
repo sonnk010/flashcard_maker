@@ -22,3 +22,17 @@ export const GET_CARDS = gql`
     }
   }
 `;
+
+export const GET_SUBSCRIPTION = gql`
+  query getSubscription {
+    getSubscription{
+      id
+      userID
+      courseID
+      sub
+      subscribeState
+      everyMinute
+      __typename
+    }
+  }
+`

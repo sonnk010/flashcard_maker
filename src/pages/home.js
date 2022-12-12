@@ -80,7 +80,7 @@ export default function Home() {
           <ModalHeader>Import card from clipboard!</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Input placeholder='Name Course' value={nameCourse} onChange={(e) => { setNameCourse(e.target.value) }}/ >
+            <Input placeholder='Name Course' value={nameCourse} onChange={(e) => { setNameCourse(e.target.value) }} />
             <Input placeholder='Description Course' value={descriptionCourse} mt="3" onChange={(e) => { setDescriptionCourse(e.target.value) }} />
           </ModalBody>
 

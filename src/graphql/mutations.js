@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import {gql} from '@apollo/client';
 
 
 export const CREATE_CARD = gql`
@@ -32,3 +32,37 @@ export const CREATE_CARD_FROM_CLIPBOARD = gql`
     }
   }
 `;
+
+export const SET_SUBSCRIBE = gql`
+  mutation setSubscribe ($sub: String) {
+    setSubscribe(input: {
+      sub: $sub
+    }) {
+      id
+      userID
+      courseID
+      sub
+      subscribeState
+      everyMinute
+      __typename
+    }
+  }
+`
+
+export const SET_SUBSCRIPTION = gql`
+  mutation setSubscribe ($courseID: String, $subscribeState: Boolean, $everyMinute: Int) {
+    setSubscribe(input: {
+      courseID: $courseID
+      subscribeState: $subscribeState
+      everyMinute: $everyMinute
+    }) {
+      id
+      userID
+      courseID
+      sub
+      subscribeState
+      everyMinute
+      __typename
+    }
+  }
+`

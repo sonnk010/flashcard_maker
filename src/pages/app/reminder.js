@@ -1,13 +1,28 @@
-import { ChakraProvider, FormControl, FormLabel, Input, FormHelperText, Stack, Switch, Wrap, Select, Container} from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  Stack,
+  Switch,
+  Wrap,
+  Select,
+  Container,
+  Button,
+  Center,
+  useToast
+} from "@chakra-ui/react";
+
 import React, { useEffect, useState } from "react";
 import BaseContainer from "../../components/contents/BaseContainer";
 import apolloClient from "../../graphql/apolloClient";
-import { GET_COURSES } from "../../graphql/queries";
+import {GET_COURSES, GET_SUBSCRIPTION} from "../../graphql/queries";
 import { axiosClient } from "../../utils/axios";
+import {SET_SUBSCRIPTION} from "../../graphql/mutations";
 
 export default function Reminder() {
-  const [subscribeState, setSubscribeState] = useState(true)
+  const [subscriptionState, setSubscriptionState] = useState(false)
+  const [subscription, setSubscription] = useState()
   const [courses, setCourses] = useState([])
+  const toast = useToast()
 
   const fetchCourses = async () => {
     const { loading, error, data } = await apolloClient.query({
@@ -18,15 +33,68 @@ export default function Reminder() {
     }
   };
 
+  const fetchSubscription = async () => {
+    const { loading, error, data } = await apolloClient.query({
+      query: GET_SUBSCRIPTION,
+    })
+    if (data) {
+      console.log(data.getSubscription)
+      await setSubscription({...data.getSubscription})
+      await setSubscriptionState(data.getSubscription.subscribeState)
+    }
+  };
 
-  useEffect( async () => {
-    await registerServiceWorker()
-    await fetchCourses()
+  const saveSubscription = async () => {
+    console.log(subscription)
+    const { loading, error, data } = await apolloClient.mutate({
+      mutation: SET_SUBSCRIPTION,
+      variables: {
+        courseID: subscription?.courseID ?? "",
+        subscribeState: subscriptionState,
+        everyMinute: subscription?.everyMinute,
+      }
+    })
+    if (data) {
+      console.log(data)
+      setSubscription({...data.getSubscription})
+      toast({
+        title: "Success!",
+        variant: ['solid'],
+        isClosable: true,
+        position: "bottom",
+        status: "success",
+      })
+    }
+  };
+  
+  useEffect( () => {
+    registerServiceWorker()
+    fetchCourses().then()
+    fetchSubscription().then()
   }, [])
 
   const onSwitchChange = () => {
-    setSubscribeState(!subscribeState)
-    console.log(subscribeState);
+    setSubscriptionState(!subscriptionState)
+    
+    setSubscription({
+      ...subscription,
+      subscribeState: subscriptionState,
+    })
+    console.log(subscription.subscribeState);
+  }
+  
+  const onCourseChange = (e) => {
+    setSubscription({
+      ...subscription,
+      courseID: e.target.value,
+    })
+  }
+
+  const onTimeChange = (e) => {
+    setSubscription({
+      ...subscription,
+      everyMinute: e.target.value,
+    })
   }
 
   return (
@@ -36,23 +104,34 @@ export default function Reminder() {
           <Wrap mb="3">
             <FormLabel>Active Reminder</FormLabel>
             <Stack align='center' direction='row'>
-              <Switch size='lg' id='subscribeState' onChange={onSwitchChange}/>
+              <Switch size='lg' id='subscribeState' onChange={onSwitchChange} isChecked={subscriptionState} />
             </Stack>
           </Wrap>
           
           <FormLabel mt="3" >Course</FormLabel>
-          <Select placeholder='All'>
-            <option value='option1'>Option 1</option>
-            <option value='option2'>Option 2</option>
-            <option value='option3'>Option 3</option>
+          <Select placeholder='All' value={subscription?.courseID} onChange={onCourseChange}>
+            {courses.map((data) =>
+              <option value={data.id} key={data.id}>{data.description}</option>
+            )}
           </Select>
 
           <FormLabel mt="3" >Time to remind</FormLabel>
-          <Select value="option1">
-            <option value='option1' default>Option 1</option>
-            <option value='option2'>Option 2</option>
-            <option value='option3'>Option 3</option>
+          <Select value={subscription?.everyMinute} onChange={onTimeChange}>
+            <option value='1'>1 Minute</option>
+            <option value='2'>2 Minute</option>
+            <option value='3'>3 Minute</option>
+            <option value='5'>5 Minute</option>
+            <option value='10'>10 Minute</option>
+            <option value='30'>30 Minute</option>
+            <option value='60'>60 Minute</option>
+            <option value='120'>120 Minute</option>
           </Select>
+          
+          <Center mt="4">
+            <Button mt="4" backgroundColor="green" onClick={saveSubscription}>
+              Save
+            </Button>
+          </Center>
 
         </FormControl>
       </Container>
@@ -63,7 +142,7 @@ export default function Reminder() {
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js');
-    return navigator.serviceWorker.ready
+    navigator.serviceWorker.ready
       .then(function (registration) {
         return registration.pushManager.getSubscription();
       })
