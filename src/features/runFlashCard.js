@@ -10,21 +10,8 @@ export const flashCardSlice = createSlice({
     index: 0,
     terminology: '',
     definition: '',
-    sources: [
-      {
-        definition: "1234",
-        terminology: "Mot hai ba bon"
-      },
-      {
-        definition: "12345",
-        terminology: "Mot hai ba bon nam"
-      },
-      {
-        definition: "123456",
-        terminology: "Mot hai ba bon nam sau"
-      },
-    ],
-    shuffledSources: [],
+    rootSources: [],
+    sources: [],
   },
   reducers: {
     increment: (state) => {
@@ -76,10 +63,14 @@ export const flashCardSlice = createSlice({
         data.payload,
       ]
     },
+    setRootSources: (state, data) => {
+      state.rootSources = data.payload
+      return state
+    },
     shuffle: (state) => {
-      let shuffledSources = shuffleArray([...state.sources])
-      state.shuffledSources = [
-        ...shuffledSources,
+      let sources = shuffleArray([...state.rootSources])
+      state.sources = [
+        ...sources,
       ]
     },
     setUseShuffledSources: (state, data) => {
@@ -121,6 +112,7 @@ export const {
   addSources,
   shuffle,
   setUseShuffledSources,
+  setRootSources,
 } = flashCardSlice.actions
 
 export default flashCardSlice.reducer

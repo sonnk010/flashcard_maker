@@ -20,6 +20,9 @@ import {
   setPlaying,
   setDelayFlip,
   setSources,
+  setUseShuffledSources,
+  setRootSources,
+  shuffle,
 } from '../../features/runFlashCard'
 import {GET_CARDS} from "../../graphql/queries";
 import apolloClient from "../../graphql/apolloClient";
@@ -36,7 +39,7 @@ export default function OverviewFlipCard(props) {
   const sources = useSelector((state) => state.overviewFlashCard.sources)
   const index = useSelector((state) => state.overviewFlashCard.index)
   const useShuffledSources = useSelector((state) => state.overviewFlashCard.useShuffledSources)
-  const shuffledSources = useSelector((state) => state.overviewFlashCard.shuffledSources)
+  const rootSources = useSelector((state) => state.overviewFlashCard.rootSources)
   const courseID = useSelector((state) => state.courses.courseId)
 
   const sleep = ms => new Promise(
@@ -55,7 +58,7 @@ export default function OverviewFlipCard(props) {
       await dispatch(setFlip())
       if (delayFlip) {
         await dispatch(setEmptyFlashCard())
-        await sleep(200)
+        await sleep(250)
         await dispatch(setDelayFlip(false))
         await dispatch(setFlashCardState())
       }
@@ -85,7 +88,12 @@ export default function OverviewFlipCard(props) {
   }
   
   const switchShuffledSources = async () => {
-    await dispatch()
+    dispatch(setUseShuffledSources(!useShuffledSources))
+    if (useShuffledSources) {
+      dispatch(shuffle())
+    } else {
+      dispatch(setSources(rootSources))
+    }
   }
 
   // setup cards
@@ -100,6 +108,7 @@ export default function OverviewFlipCard(props) {
     })
     if (data) {
       dispatch(setSources([...data.getCards]))
+      dispatch(setRootSources([...data.getCards]))
     }
   };
 
@@ -131,10 +140,10 @@ export default function OverviewFlipCard(props) {
             size='sm'
             border='1px'
             borderColor='blue.500'
-            // rightIcon={<FaRandom size={16}/>}
-            rightIcon={<TbArrowsRight size={24}/>}
+            rightIcon={useShuffledSources ? <FaRandom size={24}/> : <TbArrowsRight size={24}/>}
             mt="2"
             color="white"
+            onClick={switchShuffledSources}
           />
         </WrapItem>
         <WrapItem>
