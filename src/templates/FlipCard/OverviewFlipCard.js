@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react"
 import FlipCard from "./FlipCard";
-import {useInterval, Wrap, WrapItem, Progress, Text} from '@chakra-ui/react'
+import {useInterval, Wrap, WrapItem, Progress, Text, Button} from '@chakra-ui/react'
 import StartStopButton from "../Button/StartStopButton";
 import {useDispatch, useSelector} from "react-redux";
 import ForwardButton from "../Button/ForwardButton";
 import BackButton from "../Button/BackButton";
+import {FaRandom} from "react-icons/fa";
+import {TbArrowsRight} from "react-icons/tb";
+
 
 import {
   decrement,
@@ -12,13 +15,13 @@ import {
   incrementInterval,
   setDefaultFlashCard,
   setEmptyFlashCard,
-  setFlashCardState, 
+  setFlashCardState,
   setFlip,
   setPlaying,
   setDelayFlip,
   setSources,
 } from '../../features/runFlashCard'
-import { GET_CARDS } from "../../graphql/queries";
+import {GET_CARDS} from "../../graphql/queries";
 import apolloClient from "../../graphql/apolloClient";
 
 export default function OverviewFlipCard(props) {
@@ -32,6 +35,8 @@ export default function OverviewFlipCard(props) {
   const delayFlip = useSelector((state) => state.overviewFlashCard.delayFlip)
   const sources = useSelector((state) => state.overviewFlashCard.sources)
   const index = useSelector((state) => state.overviewFlashCard.index)
+  const useShuffledSources = useSelector((state) => state.overviewFlashCard.useShuffledSources)
+  const shuffledSources = useSelector((state) => state.overviewFlashCard.shuffledSources)
   const courseID = useSelector((state) => state.courses.courseId)
 
   const sleep = ms => new Promise(
@@ -55,13 +60,13 @@ export default function OverviewFlipCard(props) {
         await dispatch(setFlashCardState())
       }
     },
-    isPlaying ? delay - (delayFlip ? delay/2 : 0) : null,
+    isPlaying ? delay - (delayFlip ? delay / 2 : 0) : null,
   )
 
 
   useEffect(() => {
     dispatch(setDefaultFlashCard())
-  }, )
+  },)
 
   const triggerPlaying = () => {
     dispatch(setPlaying())
@@ -78,10 +83,14 @@ export default function OverviewFlipCard(props) {
     await dispatch(decrement())
     await dispatch(setFlashCardState())
   }
+  
+  const switchShuffledSources = async () => {
+    await dispatch()
+  }
 
   // setup cards
   const fetchCards = async () => {
-    const { loading, error, data } = await apolloClient.query({
+    const {loading, error, data} = await apolloClient.query({
       query: GET_CARDS,
       variables: {
         courseID: courseID
@@ -105,7 +114,7 @@ export default function OverviewFlipCard(props) {
       <Text textAlign={"center"}>
         {index + 1} / {sources.length}
       </Text>
-      <Progress value={(((index + 1) / sources.length) * 100).toFixed()} size="xs" mb="4" />
+      <Progress value={(((index + 1) / sources.length) * 100).toFixed()} size="xs" mb="4"/>
       <Wrap justifyContent={"center"} justify='center'>
         <WrapItem>
           <FlipCard
@@ -116,6 +125,18 @@ export default function OverviewFlipCard(props) {
         </WrapItem>
       </Wrap>
       <Wrap justifyContent={"center"} justify='center' mt={5}>
+        <WrapItem>
+          <Button
+            {...props}
+            size='sm'
+            border='1px'
+            borderColor='blue.500'
+            // rightIcon={<FaRandom size={16}/>}
+            rightIcon={<TbArrowsRight size={24}/>}
+            mt="2"
+            color="white"
+          />
+        </WrapItem>
         <WrapItem>
           <BackButton onClick={back}/>
         </WrapItem>

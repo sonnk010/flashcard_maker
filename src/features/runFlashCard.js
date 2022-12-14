@@ -6,6 +6,7 @@ export const flashCardSlice = createSlice({
     isPlaying: false,
     isFlip: false,
     delayFlip: true,
+    useShuffledSources: false,
     index: 0,
     terminology: '',
     definition: '',
@@ -22,7 +23,8 @@ export const flashCardSlice = createSlice({
         definition: "123456",
         terminology: "Mot hai ba bon nam sau"
       },
-    ]
+    ],
+    shuffledSources: [],
   },
   reducers: {
     increment: (state) => {
@@ -73,9 +75,36 @@ export const flashCardSlice = createSlice({
         ...state.sources,
         data.payload,
       ]
+    },
+    shuffle: (state) => {
+      let shuffledSources = shuffleArray([...state.sources])
+      state.shuffledSources = [
+        ...shuffledSources,
+      ]
+    },
+    setUseShuffledSources: (state, data) => {
+      state.useShuffledSources = data.payload
     }
   },
 })
+
+function shuffleArray(array) {
+  let currentIndex = array.length, randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
 
 // Action creators are generated for each case reducer function
 export const {
@@ -90,6 +119,8 @@ export const {
   setDelayFlip,
   setSources,
   addSources,
+  shuffle,
+  setUseShuffledSources,
 } = flashCardSlice.actions
 
 export default flashCardSlice.reducer
