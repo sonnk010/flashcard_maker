@@ -20,31 +20,38 @@ import {
 } from '@chakra-ui/react';
 import {MoonIcon, SunIcon} from '@chakra-ui/icons';
 import './style.css'
+import {useSelector} from "react-redux";
 
 const Links = [
   {
     "name": "Home",
     "path": "/",
+    "basePath": true,
   },
   {
     "name": "Flashcard",
     "path": "/app/flash-card",
+    "basePath": false,
   },
   {
     "name": "Cards",
     "path": "/app/cards",
+    "basePath": false,
   },
   {
     "name": "Learning",
     "path": "/app/learning",
+    "basePath": false,
   },
   {
     "name": "Exam",
     "path": "/app/exam",
+    "basePath": false,
   },
   {
     "name": "Reminder",
     "path": "/app/reminder",
+    "basePath": true,
   }
 ];
 
@@ -73,6 +80,7 @@ function NavLink(props) {
 export default function Nav() {
   const {colorMode, toggleColorMode} = useColorMode();
   // const {isOpen, onOpen, onClose} = useDisclosure();
+  const courseId = useSelector(state => state.courses.courseId)
 
   const logout = () => {
     deleleCookie("token")
@@ -88,9 +96,13 @@ export default function Nav() {
             as={'nav'}
             spacing={4}
             display={{base: 'none', md: 'flex'}}>
-            {Links.map((link) => (
-              <NavLink key={link.path}>{link}</NavLink>
-            ))}
+            {Links.map((link) => {
+              if (courseId || link.basePath) {
+                return (
+                  <NavLink key={link.path}>{link}</NavLink>
+                )
+              }
+            })}
           </HStack>
         </HStack>
         <Flex alignItems={'center'}>
