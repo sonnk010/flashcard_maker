@@ -12,7 +12,7 @@ export default function Cards(props) {
       <CreateCardModal></CreateCardModal>
       <Wrap>
         {sources.map((data) =>
-          <WrapItem p="1">
+          <WrapItem p="1" key={data.id}>
             <Card
               terminology={data.terminology}
               definition={data.definition}
