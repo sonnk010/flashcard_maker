@@ -77,7 +77,7 @@ export default function Home() {
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Import card from clipboard!</ModalHeader>
+          <ModalHeader>Import cards from clipboard!</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Input placeholder='Name Course' value={nameCourse} onChange={(e) => { setNameCourse(e.target.value) }} />
