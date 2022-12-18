@@ -13,13 +13,35 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link, ChakraProvider,
+  Link, ChakraProvider, Toast, useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { axiosClient } from "../utils/axios";
+import { navigate } from "@reach/router";
 
 export default function SignupCard() {
+  const toast = useToast()
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("")
+
+  const signup = () => {
+    axiosClient.post("register", {
+      email: email,
+      password: password,
+    }).then(() => {
+      toast({
+        title: `Sign up is complete`,
+        variant: ['solid', 'subtle', 'left-accent', 'top-accent'],
+        isClosable: true,
+        position: "bottom",
+        status: "success",
+      })
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 
   return (
     <ChakraProvider>
@@ -43,28 +65,14 @@ export default function SignupCard() {
             boxShadow={'lg'}
             p={8}>
             <Stack spacing={4}>
-              <HStack>
-                <Box>
-                  <FormControl id="firstName" isRequired>
-                    <FormLabel>First Name</FormLabel>
-                    <Input type="text" />
-                  </FormControl>
-                </Box>
-                <Box>
-                  <FormControl id="lastName">
-                    <FormLabel>Last Name</FormLabel>
-                    <Input type="text" />
-                  </FormControl>
-                </Box>
-              </HStack>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+                <Input type="email" value={email} onChange={(e) => { setEmail(e.target.value) }}/>
               </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
-                  <Input type={showPassword ? 'text' : 'password'} />
+                  <Input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => { setPassword(e.target.value) }} />
                   <InputRightElement h={'full'}>
                     <Button
                       variant={'ghost'}
@@ -84,12 +92,14 @@ export default function SignupCard() {
                   color={'white'}
                   _hover={{
                     bg: 'blue.500',
-                  }}>
+                  }}
+                  onClick={signup}
+                  >
                   Sign up
                 </Button>
               </Stack>
               <Stack pt={6}>
-                <Text align={'center'}>
+                <Text align={'center'} onClick={() => {window.location.href = '/login'}}>
                   Already a user? <Link color={'blue.400'}>Login</Link>
                 </Text>
               </Stack>

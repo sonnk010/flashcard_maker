@@ -13,6 +13,7 @@ import {
   Text,
   useColorModeValue,
   ChakraProvider,
+  Center,
 } from '@chakra-ui/react';
 import { axiosClient } from "../utils/axios";
 import { setCookie } from "../utils/cookie";
@@ -75,7 +76,7 @@ export default function LoginForm() {
               <FormLabel>Password</FormLabel>
               <Input type="password" value={password} onChange={handlePasswordChange}/>
             </FormControl>
-            <Stack spacing={10}>
+            <Stack spacing={5}>
               <Stack
                 direction={{ base: 'column', sm: 'row' }}
                 align={'start'}
@@ -94,6 +95,9 @@ export default function LoginForm() {
               >
                 Sign in
               </Button>
+              <Center>
+                <Link onClick={() => { window.location.href = '/signup'}}>Sign up</Link>
+              </Center>
             </Stack>
           </Stack>
         </Box>
