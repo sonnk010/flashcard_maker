@@ -22,6 +22,13 @@
     
     Generating VAPID Keys: https://github.com/SherClockHolmes/webpush-go
     
+    Sample .env.development file
+    
+          API_URL=http://localhost:8080/api/v1
+          GRAPHQL_URL=http://localhost:8080/graphql
+          VAPID_PUBLIC_KEY=BLPvDei9pAtoZweEjYW7J5tKfJobcWzuj8mhxSWlRckIa6tW5lHeur7xZUGGh65AURT-F3cNoCgq_a-38EaoLVg
+          
+    
 2.  **Start**
 
     Navigate into your new site’s directory and start it up.
