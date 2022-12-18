@@ -111,7 +111,7 @@ export default function Reminder() {
           <FormLabel mt="3" >Course</FormLabel>
           <Select placeholder='All' value={subscription?.courseID} onChange={onCourseChange}>
             {courses.map((data) =>
-              <option value={data.id} key={data.id}>{data.description}</option>
+              <option value={data.id} key={data.id}>{data.name}</option>
             )}
           </Select>
 
