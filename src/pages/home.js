@@ -73,7 +73,7 @@ export default function Home() {
 
   return (
     <BaseContainer>
-      <Button onClick={onOpen}>Import card from clipboard!</Button>
+      <Button onClick={onOpen}>Import cards from clipboard!</Button>
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
