@@ -6,7 +6,7 @@ export const flashCardSlice = createSlice({
     isPlaying: false,
     isFlip: false,
     delayFlip: true,
-    useShuffledSources: false,
+    useShuffledSources: true,
     index: 0,
     terminology: '',
     definition: '',

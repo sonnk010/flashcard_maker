@@ -31,9 +31,7 @@ export default function OverviewFlipCard(props) {
   const dispatch = useDispatch()
 
   const [delay, setDelay] = useState(8000)
-  const isRepeated = true
 
-  // ON/OFF
   const isPlaying = useSelector((state) => state.overviewFlashCard.isPlaying)
   const delayFlip = useSelector((state) => state.overviewFlashCard.delayFlip)
   const sources = useSelector((state) => state.overviewFlashCard.sources)
@@ -140,7 +138,7 @@ export default function OverviewFlipCard(props) {
             size='sm'
             border='1px'
             borderColor='blue.500'
-            rightIcon={useShuffledSources ? <FaRandom size={24}/> : <TbArrowsRight size={24}/>}
+            rightIcon={useShuffledSources ? <TbArrowsRight size={24} /> :<FaRandom size={24}/>}
             mt="2"
             color="white"
             onClick={switchShuffledSources}
