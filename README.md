@@ -6,6 +6,14 @@
   Inspiration from https://quizlet.com
 </h2>
 
+## Requirement
+
+  - Node version: v18.12.1 ^
+
+## Backend Source
+
+  - https://github.com/khacsonit/gingonic
+
 ## 🚀 Quick start
 
 1.  **Config**
