@@ -13,10 +13,10 @@ import {
 
 import React, { useEffect, useState } from "react";
 import BaseContainer from "../../components/contents/BaseContainer";
-import apolloClient from "../../graphql/apolloClient";
-import {GET_COURSES, GET_SUBSCRIPTION} from "../../graphql/queries";
+import client from "../../gatsby-plugin-apollo/client";
+import {GET_COURSES, GET_SUBSCRIPTION} from "../../gatsby-plugin-apollo/queries";
 import { axiosClient } from "../../utils/axios";
-import {SET_SUBSCRIPTION} from "../../graphql/mutations";
+import {SET_SUBSCRIPTION} from "../../gatsby-plugin-apollo/mutations";
 
 export default function Reminder() {
   const [subscriptionState, setSubscriptionState] = useState(false)
@@ -25,7 +25,7 @@ export default function Reminder() {
   const toast = useToast()
 
   const fetchCourses = async () => {
-    const { loading, error, data } = await apolloClient.query({
+    const { loading, error, data } = await client.query({
       query: GET_COURSES,
     })
     if (data) {
@@ -34,7 +34,7 @@ export default function Reminder() {
   };
 
   const fetchSubscription = async () => {
-    const { loading, error, data } = await apolloClient.query({
+    const { loading, error, data } = await client.query({
       query: GET_SUBSCRIPTION,
     })
     if (data) {
@@ -46,7 +46,7 @@ export default function Reminder() {
 
   const saveSubscription = async () => {
     console.log(subscription)
-    const { loading, error, data } = await apolloClient.mutate({
+    const { loading, error, data } = await client.mutate({
       mutation: SET_SUBSCRIPTION,
       variables: {
         courseID: subscription?.courseID ?? "",

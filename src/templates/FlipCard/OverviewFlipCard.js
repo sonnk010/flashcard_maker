@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react"
+import React, { useEffect, useState } from "react"
 import FlipCard from "./FlipCard";
-import {useInterval, Wrap, WrapItem, Progress, Text, Button} from '@chakra-ui/react'
+import { useInterval, Wrap, WrapItem, Progress, Text, Button } from '@chakra-ui/react'
 import StartStopButton from "../Button/StartStopButton";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ForwardButton from "../Button/ForwardButton";
 import BackButton from "../Button/BackButton";
-import {FaRandom} from "react-icons/fa";
-import {TbArrowsRight} from "react-icons/tb";
+import { FaRandom } from "react-icons/fa";
+import { TbArrowsRight } from "react-icons/tb";
 
 
 import {
@@ -24,8 +24,8 @@ import {
   setRootSources,
   shuffle,
 } from '../../features/runFlashCard'
-import {GET_CARDS} from "../../graphql/queries";
-import apolloClient from "../../graphql/apolloClient";
+import { GET_CARDS, GET_CARDS_WITH_CURSOR } from "../../gatsby-plugin-apollo/queries";
+import client from "../../gatsby-plugin-apollo/client";
 
 export default function OverviewFlipCard(props) {
   const dispatch = useDispatch()
@@ -84,7 +84,7 @@ export default function OverviewFlipCard(props) {
     await dispatch(decrement())
     await dispatch(setFlashCardState())
   }
-  
+
   const switchShuffledSources = async () => {
     dispatch(setUseShuffledSources(!useShuffledSources))
     if (useShuffledSources) {
@@ -96,7 +96,7 @@ export default function OverviewFlipCard(props) {
 
   // setup cards
   const fetchCards = async () => {
-    const {loading, error, data} = await apolloClient.query({
+    const { loading, error, data } = await client.query({
       query: GET_CARDS,
       variables: {
         courseID: courseID
@@ -121,7 +121,7 @@ export default function OverviewFlipCard(props) {
       <Text textAlign={"center"}>
         {index + 1} / {sources.length}
       </Text>
-      <Progress value={(((index + 1) / sources.length) * 100).toFixed()} size="xs" mb="4"/>
+      <Progress value={(((index + 1) / sources.length) * 100).toFixed()} size="xs" mb="4" />
       <Wrap justifyContent={"center"} justify='center'>
         <WrapItem>
           <FlipCard
@@ -138,22 +138,22 @@ export default function OverviewFlipCard(props) {
             size='sm'
             border='1px'
             borderColor='blue.500'
-            rightIcon={useShuffledSources ? <TbArrowsRight size={24} /> :<FaRandom size={24}/>}
+            rightIcon={useShuffledSources ? <TbArrowsRight size={24} /> : <FaRandom size={24} />}
             mt="2"
             color="white"
             onClick={switchShuffledSources}
           />
         </WrapItem>
         <WrapItem>
-          <BackButton onClick={back}/>
+          <BackButton onClick={back} />
         </WrapItem>
         <WrapItem onClick={() => {
           triggerPlaying()
         }}>
-          <StartStopButton/>
+          <StartStopButton />
         </WrapItem>
         <WrapItem>
-          <ForwardButton onClick={forward} isDisabled={true}/>
+          <ForwardButton onClick={forward} isDisabled={true} />
         </WrapItem>
       </Wrap>
     </>

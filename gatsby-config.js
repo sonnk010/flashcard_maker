@@ -46,6 +46,8 @@ module.exports = {
         // Add any options here
       },
     },
-    'gatsby-plugin-apollo',
+    {
+      resolve: `gatsby-plugin-apollo`,
+    },
   ]
 };

@@ -36,3 +36,24 @@ export const GET_SUBSCRIPTION = gql`
     }
   }
 `
+
+export const GET_CARDS_WITH_CURSOR = gql`
+  query getCardsWithCursor($input: GetCardsInput) {
+    getCardsWithCursor(
+      input: $input
+    ) {
+      data {
+        id
+        terminology
+        definition
+        courseId
+        __typename
+      }
+      pageInfo {
+        cursor
+        hasNextPage
+        __typename
+      }
+    }
+  }
+`

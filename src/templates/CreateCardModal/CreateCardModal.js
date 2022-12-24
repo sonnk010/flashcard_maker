@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Text, Lorem, ModalFooter, useDisclosure, Input } from '@chakra-ui/react'
 import { useDispatch, useSelector } from "react-redux";
-import apolloClient from "../../graphql/apolloClient";
-import { CREATE_CARD } from "../../graphql/mutations";
+import client from "../../gatsby-plugin-apollo/client";
+import { CREATE_CARD } from "../../gatsby-plugin-apollo/mutations";
 import { addSources } from "../../features/runFlashCard";
 
 export default function CreateCardModal() {
@@ -14,7 +14,7 @@ export default function CreateCardModal() {
 
 
   const addCardGQL = async () => {
-    const { data } = await apolloClient.mutate({
+    const { data } = await client.mutate({
       mutation: CREATE_CARD,
       variables: {
         courseID: courseID,

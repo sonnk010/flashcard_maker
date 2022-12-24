@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import BaseContainer from "../components/contents/BaseContainer";
-import apolloClient from "../graphql/apolloClient";
-import { GET_COURSES } from "../graphql/queries";
-import { CREATE_CARD_FROM_CLIPBOARD } from "../graphql/mutations";
+import client from "../gatsby-plugin-apollo/client";
+import { GET_COURSES } from "../gatsby-plugin-apollo/queries";
+import { CREATE_CARD_FROM_CLIPBOARD } from "../gatsby-plugin-apollo/mutations";
 import { Button, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Text, Lorem, ModalFooter, useDisclosure, Input, useToast } from '@chakra-ui/react'
 import { useDispatch } from "react-redux";
 import { setCourseID } from "../features/courses";
@@ -17,7 +17,7 @@ export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const getResponse = async () => {
-    const { loading, error, data } = await apolloClient.query({
+    const { loading, error, data } = await client.query({
       query: GET_COURSES,
     })
     if (data) {
@@ -36,7 +36,7 @@ export default function Home() {
   const importCardFromClipboard = async () => {
     let text = await navigator.clipboard.readText();
     try {
-      const { data } = await apolloClient.mutate({
+      const { data } = await client.mutate({
         mutation: CREATE_CARD_FROM_CLIPBOARD,
         variables: {
           name: nameCourse,
