@@ -7,6 +7,7 @@ import { Button, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalClose
 import { useDispatch } from "react-redux";
 import { setCourseID } from "../features/courses";
 import { Link } from "gatsby";
+import CourseCard from "../templates/Course/CourseCard";
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -94,13 +95,9 @@ export default function Home() {
       </Modal>
     
       {courses.map((item) => 
-        <Link to={`/app/flash-card/${item.id}/`} key={item.id} onClick={() => {setCourse(item.id)}}>
-          <Box pt="5" key={item.id}>
-            <Text>Name Course: {item.name}</Text>
-            <Text>Description: {item.description}</Text>
-          </Box>
-        </Link>
+        <CourseCard data={item}></CourseCard>
       )}
+
 
     </BaseContainer>
   )

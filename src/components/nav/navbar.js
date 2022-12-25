@@ -91,7 +91,7 @@ export default function Nav() {
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} position={"fixed"} width={"100%"} zIndex={99999}>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <HStack spacing={8} alignItems={'center'}>
-          <Box>Logo</Box>
+          <Box><b>F.Maker</b></Box>
           <HStack
             as={'nav'}
             spacing={4}
@@ -119,7 +119,7 @@ export default function Nav() {
                 minW={0}>
                 <Avatar
                   size={'sm'}
-                  src={'https://avatars.dicebear.com/api/male/username.svg'}
+                  src={'https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'}
                 />
               </MenuButton>
               <MenuList alignItems={'center'}>
@@ -127,7 +127,7 @@ export default function Nav() {
                 <Center>
                   <Avatar
                     size={'2xl'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    src={'https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'}
                   />
                 </Center>
                 <br/>
