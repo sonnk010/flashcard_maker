@@ -52,7 +52,7 @@ export default function Home() {
           position: "bottom",
           status: "success",
         })
-        console.log(data);
+  
         return
       }
     } catch(err) {

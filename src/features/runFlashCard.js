@@ -57,7 +57,6 @@ export const flashCardSlice = createSlice({
       return state
     },
     addSources: (state, data) => {
-      console.log(data);
       state.sources = [
         ...state.sources,
         data.payload,

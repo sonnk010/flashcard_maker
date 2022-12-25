@@ -8,9 +8,7 @@ const httpLink = new HttpLink({ uri: process.env.GRAPHQL_URL, fetch});
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) => {
-      console.log(message)
       if (message === "bad jwt token") {
-        console.log("here")
         window.location.href = "/login/"
       }
     });
@@ -49,11 +47,6 @@ const client = new ApolloClient({
                 readField, 
               }) 
             {
-              console.log("incoming");
-              console.log(incoming);
-              console.log("existing");
-              console.log(existing);
-
               let result = {...incoming}
 
               if (existing && existing["data"]?.length > 0) {

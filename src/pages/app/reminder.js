@@ -38,14 +38,12 @@ export default function Reminder() {
       query: GET_SUBSCRIPTION,
     })
     if (data) {
-      console.log(data.getSubscription)
       await setSubscription({...data.getSubscription})
       await setSubscriptionState(data.getSubscription.subscribeState)
     }
   };
 
   const saveSubscription = async () => {
-    console.log(subscription)
     const { loading, error, data } = await client.mutate({
       mutation: SET_SUBSCRIPTION,
       variables: {
@@ -55,7 +53,6 @@ export default function Reminder() {
       }
     })
     if (data) {
-      console.log(data)
       setSubscription({...data.getSubscription})
       toast({
         title: "Success!",
@@ -80,7 +77,6 @@ export default function Reminder() {
       ...subscription,
       subscribeState: subscriptionState,
     })
-    console.log(subscription.subscribeState);
   }
   
   const onCourseChange = (e) => {

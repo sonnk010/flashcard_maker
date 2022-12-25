@@ -26,7 +26,6 @@ export default function CreateCardModal() {
     })
     if (data) {
       dispatch(addSources(data.createCard))
-      console.log(data);
     }
   }
 
