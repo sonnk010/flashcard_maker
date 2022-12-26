@@ -95,7 +95,7 @@ export default function Home() {
       </Modal>
     
       {courses.map((item) => 
-        <CourseCard data={item}></CourseCard>
+        <CourseCard data={item} key={item.id}></CourseCard>
       )}
 
 

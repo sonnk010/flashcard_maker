@@ -56,6 +56,7 @@ export default function Cards(props) {
             <Card
               terminology={data.terminology}
               definition={data.definition}
+              key={data.id}
             />
           </WrapItem>
         )}
