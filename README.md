@@ -14,7 +14,7 @@
 
   - https://github.com/khacsonit/gingonic
 
-## 🚀 Quick start
+## Quick start
 
 1.  **Config**
 
