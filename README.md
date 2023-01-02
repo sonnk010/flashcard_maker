@@ -40,7 +40,7 @@
     npm run develop
     ```
     
-    Your site is now running at http://localhost:8000
+    Your site is now running at http://localhost:8000.
     
 3.  **Import course from Quizlet**
    
@@ -55,7 +55,7 @@
         ```
       => Click Copy text button
 
-    - Back to Home tab http://localhost:8000, click Import cards from clipboard > Fill name and description > Create Course
+    - Back to Home tab http://localhost:8000, click Import cards from clipboard > Fill name and description > Create Course.
     
 4.  **Setting reminder.**
     - In Reminder tab, select course and time you want to remind, remember active Active Reminder and run Scheduler in Backend.
