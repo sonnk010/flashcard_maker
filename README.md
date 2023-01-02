@@ -58,4 +58,4 @@
     - Back to Home tab http://localhost:8000, click Import cards from clipboard > Fill name and description > Create Course
     
 4.  **Setting reminder.**
-    - In Reminder tab, select course, and time you want remind, remember active Active Reminder and run Scheduler in Backend.
+    - In Reminder tab, select course and time you want to remind, remember active Active Reminder and run Scheduler in Backend.
