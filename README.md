@@ -12,7 +12,7 @@
 
 ## Backend Source
 
-  - https://github.com/khacsonit/gingonic
+  - https://github.com/sonnk-git/gingonic
 
 ## Quick start
 
