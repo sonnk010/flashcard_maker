@@ -1,39 +1,70 @@
+import { WebSocketLink } from '@apollo/client/link/ws'
+import { onError } from '@apollo/client/link/error'
+import { setContext } from '@apollo/client/link/context'
+import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, split} from '@apollo/client'
+import { getCookie } from '../utils/cookie'
+import { getMainDefinition } from '@apollo/client/utilities'
 import fetch from 'isomorphic-fetch';
-import {ApolloClient, HttpLink, InMemoryCache, ApolloLink, concat} from '@apollo/client';
-import { getCookie } from '../utils/cookie';
-import { onError } from "@apollo/client/link/error";
 
-const httpLink = new HttpLink({ uri: process.env.GRAPHQL_URL, fetch});
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.forEach(({ message, locations, path }) => {
-      if (message === "bad jwt token") {
-        window.location.href = "/login/"
-      }
-    });
-  if (networkError) console.log(`[Network error]: ${networkError}`);
-});
-
-const authMiddleware = new ApolloLink((operation, forward) => {
-  // add the authorization to the headers
-const token = getCookie("token");
-  operation.setContext({
-    headers: {
-      authorization: token ? `Bearer ${token}` : "",
+const wsLinkWithoutAuth = () =>
+  new WebSocketLink({
+    uri: process.env.WS_URL,
+    options: {
+      reconnect: true,
     },
-  });
-  return forward(operation);
-});
+  })
 
+const wsLinkWithAuth = (token) =>
+  new WebSocketLink({
+    uri: process.env.WS_URL,
+    options: {
+      reconnect: true,
+      connectionParams: {
+        authToken: `Bearer ${token}`,
+      },
+    }
+  })
 
-let links = [errorLink, authMiddleware, httpLink]
+function createIsomorphLink() {
+  return new HttpLink({
+    uri: process.env.GRAPHQL_URL,
+    fetch
+  })
+}
 
-const link = ApolloLink.from(links);
+const errorLink = onError(({ networkError, graphQLErrors }) => {
+  if (graphQLErrors) {
+    graphQLErrors.map((err) => {
+      console.warn(err.message)
+    })
+  }
+  if (networkError) {
+    console.warn(networkError)
+  }
+})
 
-const client = new ApolloClient({
-  link: link,
-  cache: new InMemoryCache({
+const authLink = setContext((_, { headers }) => {
+  let token = getCookie("token")
+  const authorization = token ? `Bearer ${token}` : null
+  return token
+    ? {
+        headers: {
+          ...headers,
+          authorization,
+        },
+      }
+    : {
+        headers: {
+          ...headers,
+        },
+      }
+})
+
+const httpLink = ApolloLink.from([errorLink, authLink, createIsomorphLink()])
+
+function createApolloClient(initialState = {}) {
+  const ssrMode = typeof window === 'undefined'
+  const cache = new InMemoryCache({
     typePolicies: {
       Query: {
         fields: {
@@ -67,7 +98,24 @@ const client = new ApolloClient({
         }
       }
     }
-  }),
-});
+  });
+
+  const link = !ssrMode ? split(
+    ({ query }) => {
+      const { kind, operation } = getMainDefinition(query)
+      return kind === 'OperationDefinition' && operation === 'subscription'
+    },
+    wsLinkWithAuth(""),
+    httpLink
+  ) : httpLink
+
+  return new ApolloClient({
+    ssrMode,
+    link,
+    cache,
+  })
+}
+
+const client = createApolloClient();
 
 export default client;

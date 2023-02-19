@@ -25,6 +25,22 @@ export default function Cards(props) {
     }
   )
 
+  const c = useQuery(
+    GET_CARDS_WITH_CURSOR,
+    {
+      variables: {
+        input: {
+          courseID: courseId,
+          pagination: {
+            limit: 20
+          }
+        }
+      }
+    }
+  )
+
+  console.log(c);
+
   function fetchMoreListItems() {
     try {
       if (!data.getCardsWithCursor.pageInfo.hasNextPage) return;
