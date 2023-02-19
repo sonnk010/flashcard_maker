@@ -29,7 +29,7 @@ export default function Reminder() {
       query: GET_COURSES,
     })
     if (data) {
-      setCourses([...data.getCourses])
+      setCourses([...data.getCourses].reverse())
     }
   };
 

@@ -39,8 +39,6 @@ export default function Cards(props) {
     }
   )
 
-  console.log(c);
-
   function fetchMoreListItems() {
     try {
       if (!data.getCardsWithCursor.pageInfo.hasNextPage) return;

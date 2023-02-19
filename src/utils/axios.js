@@ -12,6 +12,15 @@ export const axiosClient = axios.create({
   }
 })
 
+export const axiosClientWithFormData = axios.create({
+  baseURL: process.env.API_URL,
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'multipart/form-data',
+    'Authorization': 'Bearer ' + getCookie('token')
+  }
+})
+
 axiosClient.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
