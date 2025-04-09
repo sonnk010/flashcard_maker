@@ -137,7 +137,18 @@ export default function Reminder() {
 
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
+    navigator.serviceWorker.register('/sw.js').then(registration => {
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed') {
+            if (navigator.serviceWorker.controller) {
+              window.location.reload(true);
+            }
+          }
+        });
+      })
+    });
     navigator.serviceWorker.ready
       .then(function (registration) {
         return registration.pushManager.getSubscription();
